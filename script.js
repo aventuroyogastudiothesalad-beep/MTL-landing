@@ -1,3 +1,20 @@
+const trigger = document.querySelector("#eleva");
+const overlay = document.querySelector("#shots");
+
+if (trigger && overlay) {
+  const open = () => { overlay.hidden = false; document.body.style.overflow = "hidden"; };
+  const close = () => { overlay.hidden = true; document.body.style.overflow = ""; };
+
+  trigger.addEventListener("click", open);
+  trigger.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+  });
+
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  overlay.querySelector(".panel-close").addEventListener("click", close);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) close(); });
+}
+
 const roles = [
   { title: "System Solutions Engineer", org: "SGS — Notified Body 1639, Medical Devices · full remote", years: "Mar 2025 — now" },
   { title: "Data Analyst & Web Developer", org: "Freelance", years: "Dec 2024 — Mar 2025" },
