@@ -43,7 +43,7 @@
           <a class="btn btn-ghost" href="assets/aventuro-yoga-guida.pdf" target="_blank" rel="noopener" data-i18n="hero.cta2">Scarica la guida (PDF)</a>
         </div>
         <div class="hero-facts">
-          <span><span class="dot"></span><span data-i18n="hero.fact1">100% online, live + registrazioni</span></span>
+          <button type="button" class="fact-btn" id="onlineInfoBtn"><span class="dot"></span><span data-i18n="hero.fact1">100% online, live + registrazioni</span><span class="info-ic">ⓘ</span></button>
           <span><span class="dot"></span><span data-i18n="hero.fact2">Guida individuale ogni settimana</span></span>
           <span><span class="dot"></span><span data-i18n="hero.fact3">RYT 200 · Yoga Alliance</span></span>
         </div>
@@ -259,6 +259,17 @@
     <div class="footer-note" data-i18n="footer.note">Aventuro Yoga Studio — The Salad Experience</div>
   </section>
 
+</div>
+
+<div class="modal-overlay" id="onlineModal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="onlineModalTitle">
+    <button type="button" class="modal-close" id="onlineModalClose" aria-label="Chiudi">✕</button>
+    <div class="kicker" data-i18n="s5.kicker">Praticare online</div>
+    <h3 id="onlineModalTitle" data-i18n-html="s5.title">Anche questo<br>fa parte della pratica.</h3>
+    <p data-i18n="s5.p1">Praticare yoga online è diverso dal praticare nella stessa stanza. Ha tantissimi vantaggi, ma richiede anche un po' di flessibilità: se la connessione dovesse cadere, non viverlo come un ostacolo. Continua a respirare, continua a muoverti — la guida più importante è già dentro di te.</p>
+    <p data-i18n="s5.p2">Un piccolo invito riguarda il momento prima e dopo la pratica: se puoi, parla con un tono di voce morbido e pacato — è un modo per prenderci cura dello spazio che creiamo insieme. Se in quel momento non è possibile, va benissimo così: anche il silenzio può essere una forma di presenza.</p>
+    <blockquote class="quote" data-i18n="s5.quote">Grazie per scegliere di condividere questo spazio con me. Che possa essere un luogo in cui sentirti libero di respirare, ascoltarti e semplicemente essere.</blockquote>
+  </div>
 </div>
 
 <script src="script.js"></script>
