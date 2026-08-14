@@ -275,37 +275,45 @@ img { max-width: 100%; display: block; }
 
 .tuco-strip {
   position: relative;
-  height: 64px;
+  height: 118px;
+  width: 132px;
   margin-top: 16px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding-right: 6px;
-}
-
-.tuco-strip .bowl {
-  width: 46px;
-  height: auto;
-  opacity: 0.9;
+  margin-left: auto;
 }
 
 .tuco-strip .tuco {
   position: absolute;
-  right: 46px;
-  bottom: -4px;
-  width: 58px;
+  left: 0;
+  bottom: 0;
+  width: 76px;
   height: auto;
   transform-origin: bottom center;
-  animation: tuco-approach 3.6s ease-in-out infinite alternate;
+  animation: tuco-idle 4.2s ease-in-out infinite alternate;
 }
 
-@keyframes tuco-approach {
-  0%   { transform: translateX(0) rotate(-4deg); }
-  100% { transform: translateX(58px) rotate(3deg); }
+.tuco-strip .bowl {
+  position: absolute;
+  top: 0;
+  left: 64px;
+  width: 38px;
+  height: auto;
+  opacity: 0.95;
+  transform-origin: center;
+  animation: bowl-float 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes tuco-idle {
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+@keyframes bowl-float {
+  0%   { transform: translateY(0) rotate(-6deg); }
+  100% { transform: translateY(-12px) rotate(6deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tuco-strip .tuco { animation: none; }
+  .tuco-strip .tuco, .tuco-strip .bowl { animation: none; }
 }
 
 /* --- stats row --- */
