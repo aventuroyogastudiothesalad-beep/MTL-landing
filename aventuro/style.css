@@ -303,11 +303,17 @@ img { max-width: 100%; display: block; }
 
 .tuco-strip {
   position: relative;
+  display: block;
   height: 118px;
   width: 132px;
   margin-top: 16px;
   margin-left: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
+
+.tuco-strip:hover,
+.tuco-strip:focus-visible { transform: scale(1.06); }
 
 .tuco-strip .tuco {
   position: absolute;

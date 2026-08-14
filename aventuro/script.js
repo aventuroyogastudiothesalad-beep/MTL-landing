@@ -311,6 +311,10 @@ function applyLang(lang) {
     const key = el.getAttribute('data-i18n-html');
     if (dict[key] !== undefined) el.innerHTML = dict[key];
   });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+  });
   document.documentElement.lang = lang;
   document.querySelectorAll('.langswitch button').forEach(btn => {
     btn.classList.toggle('is-active', btn.getAttribute('data-lang') === lang);
