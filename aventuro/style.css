@@ -261,10 +261,15 @@ img { max-width: 100%; display: block; }
   font-family: var(--display);
   font-size: 12px;
   text-transform: uppercase;
-  padding: 8px 14px;
+  padding: 6px 14px 6px 6px;
   border-radius: 30px;
   color: var(--pink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+
+.hero-photo .tag-bowl { width: 26px; height: 26px; object-fit: contain; }
 
 .hero-photo-col { display: flex; flex-direction: column; }
 
