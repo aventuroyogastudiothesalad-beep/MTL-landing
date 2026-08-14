@@ -426,6 +426,20 @@ else applyLang('it');
   show(0);
 })();
 
+/* --- back to top --- */
+(function () {
+  const btn = document.getElementById('toTop');
+  if (!btn) return;
+
+  function toggle() {
+    btn.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
+  }
+
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle();
+})();
+
 /* --- mobile menu --- */
 (function () {
   const toggle = document.getElementById('menuToggle');
