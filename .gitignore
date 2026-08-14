@@ -1,2 +1,6 @@
 # Dati privati — non vanno mai nel repo pubblico
 /private/
+
+# File temporanei di lavoro
+*.bak
+*.bak.*
