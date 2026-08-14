@@ -541,6 +541,7 @@ img { max-width: 100%; display: block; }
 .game-col .tuco-game { margin-top: 0; }
 
 .game-photo {
+  position: relative;
   border-radius: 14px;
   overflow: hidden;
   aspect-ratio: 3 / 4;
@@ -552,7 +553,52 @@ img { max-width: 100%; display: block; }
   object-fit: cover;
   object-position: 50% 15%;
   filter: grayscale(1) contrast(1.05);
+  transition: opacity 0.25s ease;
 }
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(251, 246, 236, 0.85);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-arrow:hover { background: var(--bg); color: var(--pink); }
+.gallery-prev { left: 10px; }
+.gallery-next { right: 10px; }
+
+.gallery-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.gallery-dots button {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(251, 246, 236, 0.6);
+  cursor: pointer;
+}
+
+.gallery-dots button.is-active { background: var(--bg); }
 
 /* --- tuco game --- */
 .tuco-game {

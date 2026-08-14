@@ -377,6 +377,54 @@ try {
 if (startLang !== 'it') applyLang(startLang);
 else applyLang('it');
 
+/* --- pose photo gallery --- */
+(function () {
+  const gallery = document.getElementById('poseGallery');
+  const img = document.getElementById('poseGalleryImg');
+  if (!gallery || !img) return;
+
+  const photos = [
+    { src: 'assets/tere-pose.jpg', alt: 'Mariateresa in pratica' },
+    { src: 'assets/tere-pose2.jpg', alt: 'Mariateresa in pratica' }
+  ];
+
+  let index = 0;
+  const dotsWrap = gallery.querySelector('.gallery-dots');
+  const prevBtn = gallery.querySelector('.gallery-prev');
+  const nextBtn = gallery.querySelector('.gallery-next');
+
+  photos.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+    dot.addEventListener('click', () => show(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  function show(i) {
+    index = (i + photos.length) % photos.length;
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = photos[index].src;
+      img.alt = photos[index].alt;
+      img.style.opacity = '1';
+    }, 150);
+    dotsWrap.querySelectorAll('button').forEach((d, di) => {
+      d.classList.toggle('is-active', di === index);
+    });
+  }
+
+  prevBtn.addEventListener('click', () => show(index - 1));
+  nextBtn.addEventListener('click', () => show(index + 1));
+
+  const hasMultiple = photos.length > 1;
+  prevBtn.hidden = !hasMultiple;
+  nextBtn.hidden = !hasMultiple;
+  dotsWrap.hidden = !hasMultiple;
+
+  show(0);
+})();
+
 /* --- mobile menu --- */
 (function () {
   const toggle = document.getElementById('menuToggle');
