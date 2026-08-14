@@ -4,6 +4,7 @@ const i18n = {
     "nav.calendario": "calendario",
     "nav.iscrizioni": "iscrizioni",
     "nav.cta": "Iscriviti",
+    "nav.menu": "Menu",
     "hero.eyebrow": "Guida alla pratica · settembre 2026",
     "hero.title": "Una pratica<br>che diventa <em>tua.</em>",
     "hero.lede": "Aventuro Yoga è uno spazio online per praticare con continuità, curiosità e libertà. Classi condivise, un percorso che si adatta a te — non il contrario.",
@@ -103,6 +104,7 @@ const i18n = {
     "nav.calendario": "calendar",
     "nav.iscrizioni": "enroll",
     "nav.cta": "Join now",
+    "nav.menu": "Menu",
     "hero.eyebrow": "Practice guide · September 2026",
     "hero.title": "A practice<br>that becomes <em>yours.</em>",
     "hero.lede": "Aventuro Yoga is an online space to practice with continuity, curiosity and freedom. Shared classes, a path that adapts to you — not the other way round.",
@@ -202,6 +204,7 @@ const i18n = {
     "nav.calendario": "calendario",
     "nav.iscrizioni": "inscripción",
     "nav.cta": "Inscríbete",
+    "nav.menu": "Menú",
     "hero.eyebrow": "Guía de práctica · septiembre 2026",
     "hero.title": "Una práctica<br>que se vuelve <em>tuya.</em>",
     "hero.lede": "Aventuro Yoga es un espacio online para practicar con continuidad, curiosidad y libertad. Clases compartidas, un recorrido que se adapta a ti — no al revés.",
@@ -327,6 +330,29 @@ try {
 
 if (startLang !== 'it') applyLang(startLang);
 else applyLang('it');
+
+/* --- mobile menu --- */
+(function () {
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('siteNav');
+  if (!toggle || !nav) return;
+
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
 
 /* --- Tuco game --- */
 (function () {
