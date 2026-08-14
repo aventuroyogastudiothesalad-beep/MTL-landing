@@ -336,7 +336,7 @@ const i18n = {
     "game.p1": "Usa las flechas del teclado (o los botones de abajo en móvil) para mover a Tuco hasta el bowl de ensalada.",
     "game.score": "Bowls atrapados",
     "game.hint": "Haz clic en el área de juego para empezar, luego usa las flechas.",
-    "footer.title": "¿Lista para empezar<br><em>tu</em> práctica?",
+    "footer.title": "¿List@ para empezar<br><em>tu</em> práctica?",
     "footer.whatsapp": "Comunidad de WhatsApp ↗",
     "footer.pdf": "Guía en PDF ↗",
     "footer.note": "Aventuro Yoga Studio — The Salad Experience"
