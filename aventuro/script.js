@@ -385,7 +385,8 @@ else applyLang('it');
 
   const photos = [
     { src: 'assets/tere-pose.jpg', alt: 'Mariateresa in pratica' },
-    { src: 'assets/tere-pose2.jpg', alt: 'Mariateresa in pratica' }
+    { src: 'assets/tere-pose2.jpg', alt: 'Mariateresa in pratica' },
+    { src: 'assets/tere-pose3.jpg', alt: 'Mariateresa in verticale' }
   ];
 
   let index = 0;
