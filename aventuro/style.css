@@ -266,6 +266,43 @@ img { max-width: 100%; display: block; }
   color: var(--pink);
 }
 
+.hero-photo-col { display: flex; flex-direction: column; }
+
+.tuco-strip {
+  position: relative;
+  height: 64px;
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 6px;
+}
+
+.tuco-strip .bowl {
+  width: 46px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.tuco-strip .tuco {
+  position: absolute;
+  right: 46px;
+  bottom: -4px;
+  width: 58px;
+  height: auto;
+  transform-origin: bottom center;
+  animation: tuco-approach 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes tuco-approach {
+  0%   { transform: translateX(0) rotate(-4deg); }
+  100% { transform: translateX(58px) rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tuco-strip .tuco { animation: none; }
+}
+
 /* --- stats row --- */
 .stats {
   display: grid;
@@ -465,7 +502,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) {
   .wrap { padding: 0 20px 80px; }
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
-  .hero-photo { order: -1; max-width: 320px; }
+  .hero-photo-col { order: -1; max-width: 320px; }
   .stats { grid-template-columns: 1fr; }
   .cards2 { grid-template-columns: 1fr; }
   .variants { grid-template-columns: 1fr; }
