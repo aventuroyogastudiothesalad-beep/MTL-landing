@@ -528,6 +528,32 @@ img { max-width: 100%; display: block; }
   line-height: 1.6;
 }
 
+/* --- game layout --- */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+.game-col { display: flex; flex-direction: column; }
+.game-col .tuco-game { margin-top: 0; }
+
+.game-photo {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.game-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+  filter: grayscale(1) contrast(1.05);
+}
+
 /* --- tuco game --- */
 .tuco-game {
   position: relative;
@@ -673,6 +699,8 @@ img { max-width: 100%; display: block; }
   .principles { grid-template-columns: repeat(2, 1fr); }
   .pricing { grid-template-columns: 1fr; }
   #about .grid { grid-template-columns: 1fr; }
+  .game-layout { grid-template-columns: 1fr; }
+  .game-photo { max-width: 320px; margin: 0 auto; }
 
   .menu-toggle { display: block; }
 

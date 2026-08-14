@@ -251,20 +251,27 @@
     <div class="kicker">Bonus / <span data-i18n="game.kicker">Gioca con Tuco</span></div>
     <h2 class="section-title" data-i18n="game.title">Prendi la ciotola, se ci riesci.</h2>
     <p class="lede" data-i18n="game.p1">Usa le frecce della tastiera (o i tasti qui sotto su mobile) per muovere Tuco fino alla ciotola di insalata.</p>
-    <div class="tuco-game" id="tucoGame" tabindex="0">
-      <div class="game-score"><span data-i18n="game.score">Ciotole prese</span>: <span id="gameScore">0</span></div>
-      <img class="game-tuco" id="gameTuco" src="assets/tuco.png" alt="Tuco">
-      <img class="game-bowl" id="gameBowl" src="assets/salad-bowl.png" alt="Ciotola di insalata">
-    </div>
-    <div class="game-controls" aria-hidden="true">
-      <button type="button" data-dir="up">▲</button>
-      <div class="game-controls-row">
-        <button type="button" data-dir="left">◀</button>
-        <button type="button" data-dir="down">▼</button>
-        <button type="button" data-dir="right">▶</button>
+    <div class="game-layout">
+      <div class="game-col">
+        <div class="tuco-game" id="tucoGame" tabindex="0">
+          <div class="game-score"><span data-i18n="game.score">Ciotole prese</span>: <span id="gameScore">0</span></div>
+          <img class="game-tuco" id="gameTuco" src="assets/tuco.png" alt="Tuco">
+          <img class="game-bowl" id="gameBowl" src="assets/salad-bowl.png" alt="Ciotola di insalata">
+        </div>
+        <div class="game-controls" aria-hidden="true">
+          <button type="button" data-dir="up">▲</button>
+          <div class="game-controls-row">
+            <button type="button" data-dir="left">◀</button>
+            <button type="button" data-dir="down">▼</button>
+            <button type="button" data-dir="right">▶</button>
+          </div>
+        </div>
+        <p class="game-hint" data-i18n="game.hint">Clicca sull'area di gioco per iniziare, poi usa le frecce.</p>
+      </div>
+      <div class="game-photo">
+        <img src="assets/tere-pose.jpg" alt="Mariateresa in una posa di apertura laterale">
       </div>
     </div>
-    <p class="game-hint" data-i18n="game.hint">Clicca sull'area di gioco per iniziare, poi usa le frecce.</p>
   </section>
 
   <section id="contact">
