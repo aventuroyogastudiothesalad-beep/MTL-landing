@@ -88,6 +88,11 @@ const i18n = {
     "about.kicker": "Chi guida la pratica",
     "about.bio": "Sono Mariateresa (Tere), insegnante di yoga certificata RYT 200 (Yoga Alliance). Aventuro Yoga Studio è nato dal desiderio di portare la pratica dentro la vita reale delle persone — tra Veneto e Puglia, e ora anche online, per chiunque voglia praticare con continuità senza stravolgere la propria settimana.",
     "about.badge": "Registered Yoga Teacher · 200h · Yoga Alliance<br>@aventuroyogastudio",
+    "game.kicker": "Gioca con Tuco",
+    "game.title": "Prendi la ciotola, se ci riesci.",
+    "game.p1": "Usa le frecce della tastiera (o i tasti qui sotto su mobile) per muovere Tuco fino alla ciotola di insalata.",
+    "game.score": "Ciotole prese",
+    "game.hint": "Clicca sull'area di gioco per iniziare, poi usa le frecce.",
     "footer.title": "Pronta a iniziare<br>la <em>tua</em> pratica?",
     "footer.whatsapp": "WhatsApp community ↗",
     "footer.pdf": "Guida in PDF ↗",
@@ -182,6 +187,11 @@ const i18n = {
     "about.kicker": "Who guides the practice",
     "about.bio": "I'm Mariateresa (Tere), a certified RYT 200 yoga teacher (Yoga Alliance). Aventuro Yoga Studio was born from the wish to bring practice into people's real lives — between Veneto and Puglia, and now online too, for anyone who wants to practice with continuity without upending their week.",
     "about.badge": "Registered Yoga Teacher · 200h · Yoga Alliance<br>@aventuroyogastudio",
+    "game.kicker": "Play with Tuco",
+    "game.title": "Catch the bowl, if you can.",
+    "game.p1": "Use the arrow keys (or the buttons below on mobile) to move Tuco to the salad bowl.",
+    "game.score": "Bowls caught",
+    "game.hint": "Click the play area to start, then use the arrow keys.",
     "footer.title": "Ready to start<br><em>your</em> practice?",
     "footer.whatsapp": "WhatsApp community ↗",
     "footer.pdf": "Guide in PDF ↗",
@@ -276,6 +286,11 @@ const i18n = {
     "about.kicker": "Quién guía la práctica",
     "about.bio": "Soy Mariateresa (Tere), profesora de yoga certificada RYT 200 (Yoga Alliance). Aventuro Yoga Studio nació del deseo de llevar la práctica a la vida real de las personas — entre Veneto y Puglia, y ahora también online, para quien quiera practicar con continuidad sin desarmar su semana.",
     "about.badge": "Registered Yoga Teacher · 200h · Yoga Alliance<br>@aventuroyogastudio",
+    "game.kicker": "Juega con Tuco",
+    "game.title": "Atrapa el bowl, si puedes.",
+    "game.p1": "Usa las flechas del teclado (o los botones de abajo en móvil) para mover a Tuco hasta el bowl de ensalada.",
+    "game.score": "Bowls atrapados",
+    "game.hint": "Haz clic en el área de juego para empezar, luego usa las flechas.",
     "footer.title": "¿Lista para empezar<br><em>tu</em> práctica?",
     "footer.whatsapp": "Comunidad de WhatsApp ↗",
     "footer.pdf": "Guía en PDF ↗",
@@ -312,3 +327,107 @@ try {
 
 if (startLang !== 'it') applyLang(startLang);
 else applyLang('it');
+
+/* --- Tuco game --- */
+(function () {
+  const gameEl = document.getElementById('tucoGame');
+  if (!gameEl) return;
+
+  const tucoEl = document.getElementById('gameTuco');
+  const bowlEl = document.getElementById('gameBowl');
+  const scoreEl = document.getElementById('gameScore');
+
+  const TUCO_SIZE = 56;
+  const BOWL_SIZE = 34;
+  const SPEED = 3.2;
+  const CATCH_DIST = (TUCO_SIZE + BOWL_SIZE) / 2.6;
+
+  const W = () => gameEl.clientWidth;
+  const H = () => gameEl.clientHeight;
+
+  let x = 16;
+  let y = Math.max(0, H() - TUCO_SIZE - 12);
+  let score = 0;
+  const pressed = new Set();
+
+  function randomBowlPos() {
+    const maxX = Math.max(20, W() - BOWL_SIZE - 16);
+    const maxY = Math.max(40, H() - BOWL_SIZE - 16);
+    return {
+      bx: 16 + Math.random() * (maxX - 16),
+      by: 40 + Math.random() * (maxY - 40)
+    };
+  }
+
+  let { bx, by } = randomBowlPos();
+
+  function place() {
+    tucoEl.style.left = x + 'px';
+    tucoEl.style.top = y + 'px';
+    bowlEl.style.left = bx + 'px';
+    bowlEl.style.top = by + 'px';
+  }
+
+  function checkCatch() {
+    const dx = (x + TUCO_SIZE / 2) - (bx + BOWL_SIZE / 2);
+    const dy = (y + TUCO_SIZE / 2) - (by + BOWL_SIZE / 2);
+    if (Math.sqrt(dx * dx + dy * dy) < CATCH_DIST) {
+      score++;
+      scoreEl.textContent = score;
+      bowlEl.classList.add('is-caught');
+      setTimeout(() => {
+        bowlEl.classList.remove('is-caught');
+        const p = randomBowlPos();
+        bx = p.bx; by = p.by;
+        place();
+      }, 220);
+    }
+  }
+
+  function tick() {
+    let dx = 0, dy = 0;
+    if (pressed.has('ArrowLeft')) dx -= SPEED;
+    if (pressed.has('ArrowRight')) dx += SPEED;
+    if (pressed.has('ArrowUp')) dy -= SPEED;
+    if (pressed.has('ArrowDown')) dy += SPEED;
+    if (dx || dy) {
+      x = Math.min(Math.max(0, x + dx), Math.max(0, W() - TUCO_SIZE));
+      y = Math.min(Math.max(0, y + dy), Math.max(0, H() - TUCO_SIZE));
+      place();
+      checkCatch();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  gameEl.addEventListener('keydown', (e) => {
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+      e.preventDefault();
+      pressed.add(e.key);
+    }
+  });
+  gameEl.addEventListener('keyup', (e) => pressed.delete(e.key));
+  gameEl.addEventListener('click', () => gameEl.focus());
+
+  const keyMap = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+  document.querySelectorAll('.game-controls button').forEach((btn) => {
+    const key = keyMap[btn.getAttribute('data-dir')];
+    const start = (e) => { e.preventDefault(); pressed.add(key); gameEl.focus(); };
+    const end = () => pressed.delete(key);
+    btn.addEventListener('touchstart', start, { passive: false });
+    btn.addEventListener('touchend', end);
+    btn.addEventListener('mousedown', start);
+    btn.addEventListener('mouseup', end);
+    btn.addEventListener('mouseleave', end);
+  });
+
+  window.addEventListener('resize', () => {
+    x = Math.min(x, Math.max(0, W() - TUCO_SIZE));
+    y = Math.min(y, Math.max(0, H() - TUCO_SIZE));
+    bx = Math.min(bx, Math.max(0, W() - BOWL_SIZE));
+    by = Math.min(by, Math.max(0, H() - BOWL_SIZE));
+    place();
+  });
+
+  place();
+  requestAnimationFrame(tick);
+})();
