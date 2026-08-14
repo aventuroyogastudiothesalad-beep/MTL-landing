@@ -377,33 +377,6 @@ try {
 if (startLang !== 'it') applyLang(startLang);
 else applyLang('it');
 
-/* --- online etiquette modal --- */
-(function () {
-  const btn = document.getElementById('onlineInfoBtn');
-  const modal = document.getElementById('onlineModal');
-  const closeBtn = document.getElementById('onlineModalClose');
-  if (!btn || !modal || !closeBtn) return;
-
-  function openModal() {
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    modal.hidden = true;
-    document.body.style.overflow = '';
-    btn.focus();
-  }
-
-  btn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !modal.hidden) closeModal();
-  });
-})();
-
 /* --- mobile menu --- */
 (function () {
   const toggle = document.getElementById('menuToggle');
