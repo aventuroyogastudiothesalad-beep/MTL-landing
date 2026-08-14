@@ -108,7 +108,7 @@ const i18n = {
     "game.p1": "Usa le frecce della tastiera (o i tasti qui sotto su mobile) per muovere Tuco fino alla ciotola di insalata.",
     "game.score": "Ciotole prese",
     "game.hint": "Clicca sull'area di gioco per iniziare, poi usa le frecce.",
-    "footer.title": "Pronta a iniziare<br>la <em>tua</em> pratica?",
+    "footer.title": "Pront@ a iniziare<br>la <em>tua</em> pratica?",
     "footer.whatsapp": "WhatsApp community ↗",
     "footer.pdf": "Guida in PDF ↗",
     "footer.note": "Aventuro Yoga Studio — The Salad Experience"
