@@ -555,6 +555,32 @@ img { max-width: 100%; display: block; }
 
 .principle p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
 
+.principle:last-child {
+  grid-column: 1 / -1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.principle:last-child p { max-width: 42ch; }
+
+.principle:last-child h4 {
+  display: inline-block;
+  animation: pillar-breathe 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes pillar-breathe {
+  0%   { opacity: 0.75; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .principle:last-child h4 { animation: none; }
+}
+
 /* --- pricing --- */
 .pricing {
   display: grid;
