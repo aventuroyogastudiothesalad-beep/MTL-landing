@@ -265,6 +265,8 @@ img { max-width: 100%; display: block; }
 
 .hero-facts span { display: flex; align-items: center; gap: 6px; }
 .hero-facts .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pink); }
+.hero-facts a { display: flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; }
+.hero-facts a:hover { text-decoration: underline; }
 
 .hero-photo {
   position: relative;
