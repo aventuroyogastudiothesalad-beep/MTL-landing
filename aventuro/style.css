@@ -530,6 +530,18 @@ img { max-width: 100%; display: block; }
   line-height: 1.6;
 }
 
+.launch-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--pink-soft);
+  color: var(--pink);
+  padding: 7px 14px;
+  border-radius: 20px;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
 /* --- game layout --- */
 .game-layout {
   display: grid;
