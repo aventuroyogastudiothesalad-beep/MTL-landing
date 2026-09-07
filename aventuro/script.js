@@ -117,9 +117,12 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Gioca con Tuco",
     "game.title": "Prendi la ciotola, se ci riesci.",
-    "game.p1": "Usa le frecce della tastiera (o i tasti qui sotto su mobile) per muovere Tuco fino alla ciotola di insalata.",
-    "game.score": "Ciotole prese",
-    "game.hint": "Clicca sull'area di gioco per iniziare, poi usa le frecce.",
+    "game.p1": "Le ciotole cadono dall'alto: muovi Tuco a sinistra e destra per prenderle. Ogni ciotola presa vale +1, ogni ciotola persa −1. Arriva a 50 punti per vincere!",
+    "game.score": "Punti",
+    "game.hint": "Clicca sull'area di gioco per iniziare, poi usa le frecce sinistra/destra.",
+    "game.win": "Hai vinto!",
+    "game.over": "Game over",
+    "game.restart": "Clicca per rigiocare",
     "footer.title": "Pront@ a iniziare<br>la <em>tua</em> pratica?",
     "footer.whatsapp": "WhatsApp community ↗",
     "footer.pdf": "Guida in PDF ↗",
@@ -243,9 +246,12 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Play with Tuco",
     "game.title": "Catch the bowl, if you can.",
-    "game.p1": "Use the arrow keys (or the buttons below on mobile) to move Tuco to the salad bowl.",
-    "game.score": "Bowls caught",
-    "game.hint": "Click the play area to start, then use the arrow keys.",
+    "game.p1": "Bowls fall from the top: move Tuco left and right to catch them. Every catch is +1, every miss is −1. Reach 50 points to win!",
+    "game.score": "Score",
+    "game.hint": "Click the play area to start, then use the left/right arrow keys.",
+    "game.win": "You won!",
+    "game.over": "Game over",
+    "game.restart": "Click to play again",
     "footer.title": "Ready to start<br><em>your</em> practice?",
     "footer.whatsapp": "WhatsApp community ↗",
     "footer.pdf": "Guide in PDF ↗",
@@ -369,9 +375,12 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Juega con Tuco",
     "game.title": "Atrapa el bowl, si puedes.",
-    "game.p1": "Usa las flechas del teclado (o los botones de abajo en móvil) para mover a Tuco hasta el bowl de ensalada.",
-    "game.score": "Bowls atrapados",
-    "game.hint": "Haz clic en el área de juego para empezar, luego usa las flechas.",
+    "game.p1": "Los bowls caen desde arriba: mueve a Tuco a izquierda y derecha para atraparlos. Cada bowl atrapado vale +1, cada bowl perdido −1. ¡Llega a 50 puntos para ganar!",
+    "game.score": "Puntos",
+    "game.hint": "Haz clic en el área de juego para empezar, luego usa las flechas izquierda/derecha.",
+    "game.win": "¡Ganaste!",
+    "game.over": "Game over",
+    "game.restart": "Haz clic para volver a jugar",
     "footer.title": "¿List@ para empezar<br><em>tu</em> práctica?",
     "footer.whatsapp": "Comunidad de WhatsApp ↗",
     "footer.pdf": "Guía en PDF ↗",
@@ -499,7 +508,7 @@ else applyLang('it');
   });
 })();
 
-/* --- Tuco game --- */
+/* --- Tuco game: catch the falling bowls --- */
 (function () {
   const gameEl = document.getElementById('tucoGame');
   if (!gameEl) return;
@@ -507,82 +516,151 @@ else applyLang('it');
   const tucoEl = document.getElementById('gameTuco');
   const bowlEl = document.getElementById('gameBowl');
   const scoreEl = document.getElementById('gameScore');
+  const messageEl = document.getElementById('gameMessage');
 
   const TUCO_SIZE = 56;
   const BOWL_SIZE = 34;
-  const SPEED = 3.2;
-  const CATCH_DIST = (TUCO_SIZE + BOWL_SIZE) / 2.6;
+  const SPEED = 4;
+  const TUCO_MARGIN = 10;
+  const CATCH_SLOP = 10; // a bit of forgiveness on catch width
+  const WIN_SCORE = 50;
 
   const W = () => gameEl.clientWidth;
   const H = () => gameEl.clientHeight;
+  const tucoY = () => Math.max(0, H() - TUCO_SIZE - TUCO_MARGIN);
 
-  let x = 16;
-  let y = Math.max(0, H() - TUCO_SIZE - 12);
+  let tx = 16;
+  let bx = 16, by = -BOWL_SIZE, bSpeed = 1.8;
   let score = 0;
+  let resolved = true;
+  let started = false;
+  let state = 'playing'; // 'playing' | 'won' | 'over'
   const pressed = new Set();
 
-  function randomBowlPos() {
-    const maxX = Math.max(20, W() - BOWL_SIZE - 16);
-    const maxY = Math.max(40, H() - BOWL_SIZE - 16);
+  const msgs = () => {
+    const lang = (document.documentElement.getAttribute('lang') || 'it').slice(0, 2);
+    const t = (i18n[lang] || i18n.it);
     return {
-      bx: 16 + Math.random() * (maxX - 16),
-      by: 40 + Math.random() * (maxY - 40)
+      win: t['game.win'] || 'Hai vinto!',
+      over: t['game.over'] || 'Game over',
+      restart: t['game.restart'] || 'Clicca per rigiocare'
     };
-  }
-
-  let { bx, by } = randomBowlPos();
+  };
 
   function place() {
-    tucoEl.style.left = x + 'px';
-    tucoEl.style.top = y + 'px';
+    tucoEl.style.left = tx + 'px';
+    tucoEl.style.top = tucoY() + 'px';
     bowlEl.style.left = bx + 'px';
     bowlEl.style.top = by + 'px';
   }
 
-  function checkCatch() {
-    const dx = (x + TUCO_SIZE / 2) - (bx + BOWL_SIZE / 2);
-    const dy = (y + TUCO_SIZE / 2) - (by + BOWL_SIZE / 2);
-    if (Math.sqrt(dx * dx + dy * dy) < CATCH_DIST) {
-      score++;
-      scoreEl.textContent = score;
-      bowlEl.classList.add('is-caught');
-      setTimeout(() => {
-        bowlEl.classList.remove('is-caught');
-        const p = randomBowlPos();
-        bx = p.bx; by = p.by;
-        place();
-      }, 220);
+  function updateScore() {
+    scoreEl.textContent = score;
+  }
+
+  function spawnBowl() {
+    const maxX = Math.max(0, W() - BOWL_SIZE);
+    bx = Math.random() * maxX;
+    by = -BOWL_SIZE;
+    bSpeed = 1.8 + Math.min(score * 0.035, 2.6);
+    resolved = false;
+    bowlEl.classList.remove('is-caught', 'is-missed');
+    bowlEl.style.opacity = '1';
+  }
+
+  function showMessage(kind) {
+    const m = msgs();
+    messageEl.classList.remove('is-win', 'is-over');
+    if (kind === 'win') {
+      messageEl.classList.add('is-win');
+      messageEl.innerHTML = '🎉 ' + m.win + '<span class="sub">' + m.restart + '</span>';
+    } else {
+      messageEl.classList.add('is-over');
+      messageEl.innerHTML = m.over + '<span class="sub">' + m.restart + '</span>';
     }
+    messageEl.hidden = false;
+  }
+
+  function win() {
+    state = 'won';
+    showMessage('win');
+  }
+
+  function gameOver() {
+    state = 'over';
+    showMessage('over');
+  }
+
+  function restart() {
+    score = 0;
+    updateScore();
+    tx = 16;
+    state = 'playing';
+    started = true;
+    messageEl.hidden = true;
+    spawnBowl();
   }
 
   function tick() {
-    let dx = 0, dy = 0;
-    if (pressed.has('ArrowLeft')) dx -= SPEED;
-    if (pressed.has('ArrowRight')) dx += SPEED;
-    if (pressed.has('ArrowUp')) dy -= SPEED;
-    if (pressed.has('ArrowDown')) dy += SPEED;
-    if (dx || dy) {
-      x = Math.min(Math.max(0, x + dx), Math.max(0, W() - TUCO_SIZE));
-      y = Math.min(Math.max(0, y + dy), Math.max(0, H() - TUCO_SIZE));
+    if (state === 'playing' && started) {
+      let dx = 0;
+      if (pressed.has('ArrowLeft')) dx -= SPEED;
+      if (pressed.has('ArrowRight')) dx += SPEED;
+      if (dx) tx = Math.min(Math.max(0, tx + dx), Math.max(0, W() - TUCO_SIZE));
+
+      by += bSpeed;
+      const catchLine = tucoY();
+
+      if (!resolved && by + BOWL_SIZE >= catchLine) {
+        resolved = true;
+        const bowlCenter = bx + BOWL_SIZE / 2;
+        const left = tx - CATCH_SLOP;
+        const right = tx + TUCO_SIZE + CATCH_SLOP;
+        if (bowlCenter >= left && bowlCenter <= right) {
+          score++;
+          updateScore();
+          bowlEl.classList.add('is-caught');
+          if (score >= WIN_SCORE) {
+            win();
+          } else {
+            setTimeout(spawnBowl, 200);
+          }
+        } else {
+          bowlEl.classList.add('is-missed');
+          if (score <= 0) {
+            score = 0;
+            updateScore();
+            setTimeout(gameOver, 250);
+          } else {
+            score--;
+            updateScore();
+            setTimeout(spawnBowl, 200);
+          }
+        }
+      }
       place();
-      checkCatch();
     }
     requestAnimationFrame(tick);
   }
 
   gameEl.addEventListener('keydown', (e) => {
-    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+    if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
       e.preventDefault();
+      started = true;
       pressed.add(e.key);
     }
   });
   gameEl.addEventListener('keyup', (e) => pressed.delete(e.key));
-  gameEl.addEventListener('click', () => gameEl.focus());
+  gameEl.addEventListener('click', () => {
+    gameEl.focus();
+    if (state !== 'playing') { restart(); return; }
+    started = true;
+  });
 
-  const keyMap = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+  const keyMap = { left: 'ArrowLeft', right: 'ArrowRight' };
   document.querySelectorAll('.game-controls button').forEach((btn) => {
     const key = keyMap[btn.getAttribute('data-dir')];
-    const start = (e) => { e.preventDefault(); pressed.add(key); gameEl.focus(); };
+    const start = (e) => { e.preventDefault(); started = true; pressed.add(key); gameEl.focus(); };
     const end = () => pressed.delete(key);
     btn.addEventListener('touchstart', start, { passive: false });
     btn.addEventListener('touchend', end);
@@ -592,13 +670,13 @@ else applyLang('it');
   });
 
   window.addEventListener('resize', () => {
-    x = Math.min(x, Math.max(0, W() - TUCO_SIZE));
-    y = Math.min(y, Math.max(0, H() - TUCO_SIZE));
+    tx = Math.min(tx, Math.max(0, W() - TUCO_SIZE));
     bx = Math.min(bx, Math.max(0, W() - BOWL_SIZE));
-    by = Math.min(by, Math.max(0, H() - BOWL_SIZE));
     place();
   });
 
+  updateScore();
+  spawnBowl();
   place();
   requestAnimationFrame(tick);
 })();

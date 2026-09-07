@@ -661,12 +661,45 @@ img { max-width: 100%; display: block; }
 }
 
 .game-bowl.is-caught { animation: bowl-catch 0.22s ease-out; }
+.game-bowl.is-missed { animation: bowl-miss 0.3s ease-in forwards; }
 
 @keyframes bowl-catch {
   0%   { transform: scale(1); opacity: 1; }
   60%  { transform: scale(1.5); opacity: 0.7; }
   100% { transform: scale(0.2); opacity: 0; }
 }
+
+@keyframes bowl-miss {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(30px) rotate(25deg); opacity: 0; }
+}
+
+.game-message[hidden] { display: none; }
+
+.game-message {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(251, 246, 236, 0.94);
+  font-family: var(--serif);
+  font-size: 22px;
+}
+
+.game-message .sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+
+.game-message.is-win { color: var(--pink); }
+.game-message.is-over { color: var(--accent); }
 
 .game-controls {
   display: none;
