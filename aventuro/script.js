@@ -643,14 +643,18 @@ else applyLang('it');
     requestAnimationFrame(tick);
   }
 
-  gameEl.addEventListener('keydown', (e) => {
-    if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
+  // Listen on document (not just the game element) so arrow keys keep working
+  // even if the browser drops focus off the play area after a while.
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowLeft', 'ArrowRight'].includes(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = (document.activeElement && document.activeElement.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       e.preventDefault();
       started = true;
       pressed.add(e.key);
     }
   });
-  gameEl.addEventListener('keyup', (e) => pressed.delete(e.key));
+  document.addEventListener('keyup', (e) => pressed.delete(e.key));
   gameEl.addEventListener('click', () => {
     gameEl.focus();
     if (state !== 'playing') { restart(); return; }
