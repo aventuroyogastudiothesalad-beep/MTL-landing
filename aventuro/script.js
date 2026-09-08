@@ -117,7 +117,7 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Gioca con Tuco",
     "game.title": "Prendi la ciotola, se ci riesci.",
-    "game.p1": "Le ciotole cadono dall'alto: muovi Tuco a sinistra e destra per prenderle. Ogni ciotola presa vale +1, ogni ciotola persa −1. Arriva a 50 punti per vincere!",
+    "game.p1": "Le ciotole cadono dall'alto: muovi Tuco a sinistra e destra per prenderle. Ogni ciotola presa vale +1, ogni ciotola persa −1. Arriva a 30 punti per vincere!",
     "game.score": "Punti",
     "game.hint": "Clicca sull'area di gioco per iniziare, poi usa le frecce sinistra/destra.",
     "game.win": "Hai vinto!",
@@ -246,7 +246,7 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Play with Tuco",
     "game.title": "Catch the bowl, if you can.",
-    "game.p1": "Bowls fall from the top: move Tuco left and right to catch them. Every catch is +1, every miss is −1. Reach 50 points to win!",
+    "game.p1": "Bowls fall from the top: move Tuco left and right to catch them. Every catch is +1, every miss is −1. Reach 30 points to win!",
     "game.score": "Score",
     "game.hint": "Click the play area to start, then use the left/right arrow keys.",
     "game.win": "You won!",
@@ -375,7 +375,7 @@ const i18n = {
     "about.badge": "Registered Yoga Teacher · 250h · Yoga Alliance<br>@aventuroyogastudio",
     "game.kicker": "Juega con Tuco",
     "game.title": "Atrapa el bowl, si puedes.",
-    "game.p1": "Los bowls caen desde arriba: mueve a Tuco a izquierda y derecha para atraparlos. Cada bowl atrapado vale +1, cada bowl perdido −1. ¡Llega a 50 puntos para ganar!",
+    "game.p1": "Los bowls caen desde arriba: mueve a Tuco a izquierda y derecha para atraparlos. Cada bowl atrapado vale +1, cada bowl perdido −1. ¡Llega a 30 puntos para ganar!",
     "game.score": "Puntos",
     "game.hint": "Haz clic en el área de juego para empezar, luego usa las flechas izquierda/derecha.",
     "game.win": "¡Ganaste!",
@@ -523,7 +523,7 @@ else applyLang('it');
   const SPEED = 4;
   const TUCO_MARGIN = 10;
   const CATCH_SLOP = 10; // a bit of forgiveness on catch width
-  const WIN_SCORE = 50;
+  const WIN_SCORE = 30;
 
   const W = () => gameEl.clientWidth;
   const H = () => gameEl.clientHeight;
