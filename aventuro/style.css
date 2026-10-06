@@ -267,6 +267,7 @@ img { max-width: 100%; display: block; }
 .hero-facts .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pink); }
 .hero-facts a { display: flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; }
 .hero-facts a:hover { text-decoration: underline; }
+.hero-facts .hero-facts-break { flex-basis: 100%; height: 0; }
 .hero-facts-label { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-mute); }
 
 .hero-photo {
