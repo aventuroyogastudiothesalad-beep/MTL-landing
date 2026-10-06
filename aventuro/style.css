@@ -495,7 +495,7 @@ img { max-width: 100%; display: block; }
 /* --- pricing --- */
 .pricing {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 36px;
 }
